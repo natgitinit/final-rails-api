@@ -1,76 +1,31 @@
 class ApplicationController < ActionController::API
-  before_action :authenticate
+  protect_from_forgery_with :null_session
+  attr_reader :current_user
 
-  def logged_in?
-    !!current_user
+  protected
+  def authenticate_request!
+    unless user_id_in_token?
+      render json: { errors: ['Not Authenticated'] }, status: :unauthorized
+      return
+    end
+    @current_user = User.find(auth_token[:user_id])
+  rescue JWT::VerificationError, JWT::DecodeError
+    render json: { errors: ['Not Authenticated'] }, status: :unauthorized
   end
-
-  def current_user
-    @current_user ||= User.find(decoded_token["user"]) if auth_present?
-  end
-
-  def authenticate
-    render json: {error: "unauthorized"}, status: 401 unless logged_in?
-  end
-
 
   private
-
-  def auth_present?
-    !!request.env.fetch("HTTP_AUTHORIZATION","").scan(/Bearer/).flatten.first
+  def http_token
+      @http_token ||= if request.headers['Authorization'].present?
+        request.headers['Authorization'].split(' ').last
+      end
   end
 
-  def decoded_token
-    Auth.decode(token)
+  def auth_token
+    @auth_token ||= JsonWebToken.decode(http_token)
   end
 
-  def token
-    request.env["HTTP_AUTHORIZATION"].scan(/Bearer (.*)$/).flatten.last
+  def user_id_in_token?
+    http_token && auth_token && auth_token[:user_id].to_i
   end
 
 end
-
-
-# private
-#
-# def issue_token payload
-#   JWT.encode(payload, secret, algorithm)
-# end
-#
-# def authorize_user!
-#   if !current_user.present?
-#     render json: {error: 'No user id present'}
-#   end
-# end
-#
-# def current_user
-#   @current_user ||= User.find_by(id: token_user_id)
-# end
-#
-# def token_user_id
-#   decoded_token.first['id']
-# end
-#
-# def decoded_token
-#   if token
-#     begin
-#       JWT.decode(token,secret, true, {algorithm: algorithm})
-#     rescue JWT::DecodeError
-#       return [{}]
-#     end
-#   else
-#     [{}]
-#   end
-# end
-#
-# def token
-#   request.headers['Authorization']
-# end
-#
-# def secret
-#   "events"
-# end
-#
-# def algorithm
-#   "HS256"
-# end

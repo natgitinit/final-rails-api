@@ -20,7 +20,7 @@ gem 'coffee-rails', '~> 4.2'
 # gem 'therubyracer', platforms: :ruby
 gem 'dotenv-rails'
 gem 'devise'
-gem 'knock'
+# gem 'knock'
 gem 'jwt'
 gem 'hyperclient'
 

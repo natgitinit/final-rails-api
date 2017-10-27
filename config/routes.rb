@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
 
-  root to: "posts#index"
-
   namespace :api do
     namespace :v1 do
-      post '/login', to: 'sessions#create'
+      root 'posts#index'
+      post 'auth_user' => 'authentication#authenticate_user'
       resources :posts
       devise_for :users
     end
