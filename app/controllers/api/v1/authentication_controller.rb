@@ -1,4 +1,4 @@
-class Api::V1::AuthenticationController < ApplicationControllers
+class Api::V1::AuthenticationController < ApplicationController
   # implement the authentication endpoint. It uses Devise to authenticate the user and issue a JWT if the credentials are valid.
 
   def authenticate_user
