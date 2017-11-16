@@ -1,44 +1,36 @@
 class Api::V1::ArticlesController < ApplicationController
   before_filter :authenticate_request!
+  before_action :set_article, only: [:show, :destroy]
 
   def index
-    @articles = Article.all.order(created_at: :DESC)
-    render json: {'logged_in' => true}
+    render json: Article.all
   end
 
-  # def create
-  #   if Article.find_by(params[:id])
-  #
-  #     @error = {error:'Article already exists'}
-  #     render json: @error
-  #   else
-  #   @article = Article.find_or_create_by(article_params)
-  #   render json: @article
-  #   end
-  # end
-  #
-  # def show
-  #   @article= Article.find(params[:id])
-  #   render json: @article
-  # end
-  #
-  # def update
-  #   @article= Article.find(params[:id])
-  #   @article.update(article_params)
-  #   render json: @article
-  # end
-  #
-  # def destroy
-  #   @article= Article.find(params[:id])
-  #   @article.delete
-  #   render json: {success:'deleted'}
-  #   rescue ActiveRecord::InvalidForeignKey
-  #     render json: {error:'Cannot delete Article'}
-  # end
-  # private
-  #
-  # def article_params
-  #   params.permit(:id, :title, :url, :byline)
-  # end
+  def create
+    @article= Article.create(article_params)
+    if @article.save
+      render json: @article, status: 201
+    else
+      render json: { errors: @article.errors.full_messages }, status: 422
+    end
+  end
 
+  def show
+    render json: @article = Article.find(params[:id])
+  end
+
+  def destroy
+    @article.destroy
+    render :show, status: :ok
+  end
+
+  private
+  def set_article
+    @article = Article.find(params[:id])
+  end
+
+  def article_params
+    params.permit(:title, :category, :url, :byline)
+  end
+  
 end
