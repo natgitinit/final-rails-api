@@ -30,7 +30,7 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   def article_params
-    params.permit(:title, :category, :url, :byline)
+    params.permit(:title, :category, :url, :byline, :abstract, :image_url)
   end
-  
+
 end
