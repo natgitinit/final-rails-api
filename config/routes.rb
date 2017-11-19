@@ -2,10 +2,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      root 'posts#index'
-      post 'auth_user' => 'authentication#authenticate_user'
-      resources :posts
+      root 'articles#index'
+      resources :articles
       devise_for :users
+      post 'auth_user' => 'authentication#authenticate_user'
     end
   end
 
