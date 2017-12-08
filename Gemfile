@@ -28,8 +28,8 @@ gem 'hyperclient'
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'active_model_serializers'
-gem 'will_paginate'
-gem 'api-pagination'
+gem 'nokogiri'
+gem 'httparty'
 
 
 # Use jquery as the JavaScript library
@@ -60,6 +60,10 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
+
+# group :production do
+#   gem 'pg'
+# end
 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
