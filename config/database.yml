@@ -26,7 +26,7 @@
 development:
   adapter: postgresql
   encoding: utf8
-  database: project_development
+  database: natashagitlin
   pool: 5
   username:
   password:
