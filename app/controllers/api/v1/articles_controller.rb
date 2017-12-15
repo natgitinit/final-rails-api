@@ -6,23 +6,31 @@ class Api::V1::ArticlesController < ApplicationController
     render json: Article.all
   end
 
-  # def create
-  #   @article= Article.create(article_params)
-  #   if @article.save
-  #     render json: @article, status: 201
-  #   else
-  #     render json: { errors: @article.errors.full_messages }, status: 422
-  #   end
-  # end
-  #
-  # def show
-  #   render json: @article = Article.find(params[:id])
-  # end
-  #
-  # def destroy
-  #   @article.destroy
-  #   render :show, status: :ok
-  # end
+  def create
+    @article= Article.create(article_params)
+    if @article.save
+      render json: @article, status: 201
+    else
+      render json: { errors: @article.errors.full_messages }, status: 403
+    end
+  end
+
+  def update
+    @article = Article.find(params[:id])
+    if @article.save
+      @articles = Article.order(id: :asc)
+      render json: @articles
+    end
+  end
+
+  def destroy
+    @article = Article.find(params[:id])
+    if @article.destroy
+      render json: {
+        message: 'Successfully removed article'
+      }
+    end
+  end
 
   private
   def set_article
