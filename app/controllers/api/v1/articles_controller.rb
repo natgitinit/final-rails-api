@@ -3,7 +3,8 @@ class Api::V1::ArticlesController < ApplicationController
   # before_action :set_article, only: [:show, :destroy]
 
   def index
-    render json: Article.all
+    @articles = Article.all
+    render json: @articles 
   end
 
   def create

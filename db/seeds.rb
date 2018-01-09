@@ -5,3 +5,18 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+articles = Article.create(
+  [
+    {
+      title: 'NYTIMES ARTICLE',
+      category: 'Politics',
+      byline: 'Author_1'
+    },
+    {
+      title: 'Art is cool',
+      category: 'Arts',
+      byline: 'Author_2'
+    }
+  ]
+)
