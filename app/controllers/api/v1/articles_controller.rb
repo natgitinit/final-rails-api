@@ -1,13 +1,16 @@
+# require 'pry'
+
 class Api::V1::ArticlesController < ApplicationController
   # before_filter :authenticate_request!
   # before_action :set_article, only: [:show, :destroy]
 
   def index
     @articles = Article.all
-    render json: @articles 
+    render json: @articles
   end
 
   def create
+    # byebug
     @article= Article.create(article_params)
     if @article.save
       render json: @article, status: 201
