@@ -4,7 +4,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   def index
     @articles = Article.all
-      # byebug 
+      # byebug
     render json: @articles
   end
 
@@ -19,8 +19,13 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   def update
+    # upvote_count = 0
     @article = Article.find(params[:id])
+    # byebug
+    @article.upvote_count ||= 0
+    @article.upvote_count += 1
     if @article.save
+
       @articles = Article.order(id: :asc)
       render json: @articles
     end
