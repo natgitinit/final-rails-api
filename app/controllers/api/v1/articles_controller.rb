@@ -26,7 +26,7 @@ class Api::V1::ArticlesController < ApplicationController
     @article.upvote_count += 1
     if @article.save
 
-      @articles = Article.order(id: :asc)
+      @articles = Article.includes(:upvote_count).order(id: :asc)
       render json: @articles
     end
   end
