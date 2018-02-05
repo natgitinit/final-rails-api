@@ -19,15 +19,12 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   def update
-    # upvote_count = 0
     @article = Article.find(params[:id])
     # byebug
     @article.upvote_count ||= 0
     @article.upvote_count += 1
     if @article.save
-
-      @articles = Article.includes(:upvote_count).order(id: :asc)
-      render json: @articles
+      render json: @article
     end
   end
 
