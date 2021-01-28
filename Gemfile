@@ -28,6 +28,7 @@ gem 'hyperclient'
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'active_model_serializers'
+gem "activesupport"
 
 
 # Use jquery as the JavaScript library
